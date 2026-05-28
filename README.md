@@ -4,10 +4,9 @@ Official static website for Teddy Toy Match, a cozy teddy bear puzzle adventure 
 
 Domain: https://teddytoymatch.com
 
-App Store: https://apps.apple.com/app/id6774041961
+App Store: https://apps.apple.com/us/app/teddy-toy-match/id6774041961
 
 ## Contact
 
-- Support@teddytoymatch.app
-- Feedback@teddytoymatch.app
-- Info@teddytoymatch.app
+- Support@teddytoymatch.com
+- Feedback@teddytoymatch.com
