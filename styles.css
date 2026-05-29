@@ -157,15 +157,55 @@ footer a:hover {
 
 .hero-media {
   position: relative;
+  min-height: 40rem;
+  display: grid;
+  place-items: center;
 }
 
 .hero-art {
-  width: min(100%, 620px);
+  width: min(78%, 520px);
   aspect-ratio: 1;
   object-fit: cover;
   border-radius: 1.6rem;
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 36px 95px rgba(0, 0, 0, 0.34);
+  opacity: 0.32;
+  transform: translate(-12%, 3%) rotate(-4deg);
+}
+
+.phone-showcase {
+  position: absolute;
+  z-index: 4;
+  width: min(52vw, 20rem);
+  min-width: 15rem;
+  padding: 0.65rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.05));
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 2.2rem;
+  box-shadow:
+    0 36px 90px rgba(0, 0, 0, 0.45),
+    0 0 60px rgba(255, 212, 103, 0.16);
+}
+
+.phone-showcase::before {
+  content: "";
+  position: absolute;
+  top: 0.95rem;
+  left: 50%;
+  width: 5.4rem;
+  height: 1.05rem;
+  transform: translateX(-50%);
+  border-radius: 99rem;
+  background: #05030a;
+  z-index: 2;
+}
+
+.phone-showcase img {
+  width: 100%;
+  aspect-ratio: 1290 / 2796;
+  object-fit: cover;
+  border-radius: 1.55rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
 }
 
 .floating-tile {
@@ -183,12 +223,14 @@ footer a:hover {
 }
 
 .tile-one {
-  left: -1.2rem;
+  z-index: 5;
+  left: 0.2rem;
   bottom: 3rem;
 }
 
 .tile-two {
-  right: -1.2rem;
+  z-index: 5;
+  right: 0.4rem;
   top: 4.5rem;
 }
 
@@ -446,6 +488,44 @@ footer {
   gap: 1rem;
 }
 
+.screenshots-section {
+  overflow: hidden;
+}
+
+.screenshot-rail {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(15rem, 20rem);
+  gap: 1rem;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+  padding: 0.2rem 0 1.1rem;
+  scroll-snap-type: x proximity;
+}
+
+.screenshot-rail figure {
+  margin: 0;
+  scroll-snap-align: start;
+  border-radius: 1.4rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+}
+
+.screenshot-rail img {
+  width: 100%;
+  aspect-ratio: 1290 / 2796;
+  object-fit: cover;
+}
+
+.screenshot-rail figcaption {
+  padding: 0.8rem 1rem 1rem;
+  color: var(--ink);
+  font-weight: 950;
+  background: rgba(15, 8, 24, 0.86);
+}
+
 .world-grid img {
   width: 100%;
   height: 26rem;
@@ -539,6 +619,7 @@ footer {
 
   .hero-media {
     order: 2;
+    min-height: 36rem;
   }
 
   .feature-shot img,
@@ -586,5 +667,9 @@ footer {
   .tile-two {
     right: 0.5rem;
     top: 1rem;
+  }
+
+  .phone-showcase {
+    width: min(78vw, 19rem);
   }
 }
