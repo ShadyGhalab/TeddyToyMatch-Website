@@ -112,10 +112,59 @@ export const art = {
       "existing": true
     },
     {
+      "url": "/assets/screenshots/app-store-web/03-gravity-obstacles.jpg",
+      "sha": "3c9413463a7aa47016ae92cd09bedff4d7223af1",
+      "source": "assets/screenshots/app-store-web/03-gravity-obstacles.jpg",
+      "alt": "Teddy Dreams Gravity and obstacles screenshot from the existing store artwork",
+      "existing": true
+    },
+    {
       "url": "/assets/screenshots/app-store-web/04-dream-map.jpg",
       "sha": "454fb4834df70786275012f575f15e3c92f5f18a",
       "source": "assets/screenshots/app-store-web/04-dream-map.jpg",
       "alt": "Teddy dream map from the existing store artwork",
+      "existing": true
+    },
+    {
+      "url": "/assets/screenshots/app-store-web/05-teddy-styles.jpg",
+      "sha": "3975db462ead67d30a1e32c5418fd5b614879fc7",
+      "source": "assets/screenshots/app-store-web/05-teddy-styles.jpg",
+      "alt": "Teddy Dreams Teddy styles screenshot from the existing store artwork",
+      "existing": true
+    },
+    {
+      "url": "/assets/screenshots/app-store-web/06-daily-challenge.jpg",
+      "sha": "2306a3994f664a9d97b61df4b06eaae05c10ab3f",
+      "source": "assets/screenshots/app-store-web/06-daily-challenge.jpg",
+      "alt": "Teddy Dreams Daily challenge screenshot from the existing store artwork",
+      "existing": true
+    },
+    {
+      "url": "/assets/screenshots/app-store-web/07-level-complete.jpg",
+      "sha": "a3dfb5ab54945dd150bb0798f7273efcf724d33a",
+      "source": "assets/screenshots/app-store-web/07-level-complete.jpg",
+      "alt": "Teddy Dreams Level completion screenshot from the existing store artwork",
+      "existing": true
+    },
+    {
+      "url": "/assets/screenshots/app-store-web/08-obstacles.jpg",
+      "sha": "e71b92e55d6a46f42ca8e490db75028670477970",
+      "source": "assets/screenshots/app-store-web/08-obstacles.jpg",
+      "alt": "Teddy Dreams Obstacles screenshot from the existing store artwork",
+      "existing": true
+    },
+    {
+      "url": "/assets/screenshots/app-store-web/09-timer-streaks.jpg",
+      "sha": "48e7ce9f80dfab9ee1f735033915092b75fbb7a3",
+      "source": "assets/screenshots/app-store-web/09-timer-streaks.jpg",
+      "alt": "Teddy Dreams Timer and streaks screenshot from the existing store artwork",
+      "existing": true
+    },
+    {
+      "url": "/assets/screenshots/app-store-web/10-special-modes.jpg",
+      "sha": "6d47504e388fcb600b5da348f08682f87799ac64",
+      "source": "assets/screenshots/app-store-web/10-special-modes.jpg",
+      "alt": "Teddy Dreams Special modes screenshot from the existing store artwork",
       "existing": true
     }
   ]
@@ -137,7 +186,7 @@ export function renderPage(config,catalog,keys,invitationLabels,funnelLabels,art
   const alternate=config.locales.map(l=>'<link rel="alternate" hreflang="'+e(l)+'" href="'+config.domain+route(l)+'">').join('\n');
   const feedback=e('mailto:'+config.email+'?subject='+encodeURIComponent(config.name+' — '+row[keys.indexOf('q3')])+'&body='+encodeURIComponent(extra[8]));
   const steps=[[t.step1,t.detail1,t.join,group,'group',groupDone],[t.step2,t.detail2,t.step2,opt,'test',testDone],[t.step3,t.detail3,t.step3,store,'install',installDone]].map(([heading,body,action,url,key,label],i)=>`<li id="step-${key}"><span class="number" aria-hidden="true">0${i+1}</span><h3>${heading}</h3><p>${body}</p><a class="action ${i===1?'primary':''}" href="${url}"${external} data-next-target="${key}">${action}</a><label class="check-step" hidden><input type="checkbox" data-step="${key}"><span>${label}</span></label></li>`).join('');
-  const screenshots=art.screenshots.map((img,i)=>`<figure class="store-shot"><img src="${e(img.url)}" alt="${e(img.alt)}" lang="en" loading="lazy" decoding="async" width="360" height="780"><figcaption dir="ltr">${i+1} / ${art.screenshots.length}</figcaption></figure>`).join('');
+  const screenshots=art.screenshots.map((img,i)=>`<figure class="store-shot"><a href="${e(img.url)}" target="_blank" rel="noopener noreferrer"><img src="${e(img.url)}" alt="${e(img.alt)}" lang="en" loading="lazy" decoding="async" width="360" height="780"></a><figcaption dir="ltr">${i+1} / ${art.screenshots.length}</figcaption></figure>`).join('');
   return `<!doctype html>
 <html lang="${e(locale)}" dir="${locale==='ar'?'rtl':'ltr'}" data-auto-locale="${auto}">
 <head>
@@ -155,7 +204,7 @@ ${alternate}
 <main class="shell" id="main-content">
 <section class="hero funnel-hero" aria-labelledby="hero-title"><div><p class="eyebrow">${t.beta}</p><h1 id="hero-title">${e(config.name)}<span>${t.headline}</span></h1><p class="lead">${description}</p><p>${t.intro}</p><div class="hero-actions"><a class="action primary" href="${group}"${external} data-next-action>${t.join}</a><a class="action member" href="${opt}"${external}>${t.step2}</a></div><p class="note" id="return-note">${returnNote}</p><p class="note">${t.same}</p></div><div class="art hero-graphic"><img src="${art.graphic.url}" alt="" width="1024" height="500" fetchpriority="high"></div></section>
 <section id="enroll" class="enroll" aria-labelledby="steps-title"><h2 id="steps-title">${t.steps}</h2><ol class="steps" aria-describedby="return-note">${steps}</ol><div class="check-panel" data-checklist hidden><div class="check-head"><h3 id="check-title">${checkTitle}</h3><span data-count role="status" aria-live="polite" dir="ltr">0 / 3</span></div><progress data-progress value="0" max="3" aria-labelledby="check-title"></progress><p>${privacy}</p><button class="reset" data-reset type="button">${reset}</button></div><div class="access-note"><p>${accessHelp}</p><a class="action" href="${opt}"${external}>${t.step2}</a></div></section>
-<section class="previews" aria-labelledby="preview-title"><h2 id="preview-title">${previewTitle}</h2><p>${previewNote}</p><div class="store-gallery">${screenshots}</div><a class="action primary" href="#enroll">${t.steps}</a></section>
+<section class="previews" aria-labelledby="preview-title"><h2 id="preview-title">${previewTitle}</h2><p>${previewNote}</p><div class="store-gallery" role="region" aria-labelledby="preview-title" tabindex="0">${screenshots}</div><a class="action primary" href="#enroll">${t.steps}</a></section>
 <section class="commit" aria-labelledby="commit-title"><span class="calendar" aria-hidden="true">14</span><div><h2 id="commit-title">${t.days}</h2><p>${t.commit}</p><a class="feedback" href="${feedback}" data-feedback-link>${t.feedback}</a></div></section>
 <section class="reminder" data-reminder hidden aria-labelledby="reminder-title"><h2 id="reminder-title">${reminderTitle}</h2><p>${reminderNote}</p><div class="reminder-controls"><label for="opt-in-date">${dateLabel}</label><input id="opt-in-date" type="date" data-opt-date><button class="action" type="button" data-reminder-download data-event-title="${e(config.name)} — ${t.days}" data-event-note="${reminderNote}" disabled>${reminderCTA}</button></div></section>
 <section class="faq" aria-labelledby="faq-title"><h2 id="faq-title">${t.help}</h2><details open><summary>${t.q1}</summary><p>${t.a1}</p><p>${accessHelp}</p><p>${internalHelp}</p><p><a href="https://support.google.com/googleplay/android-developer/answer/9845334"${external}>Google Play Help</a> · <a class="feedback" href="${feedback}">${t.feedback}</a></p></details><details><summary>${t.q2}</summary><p>${t.a2}</p></details><details><summary>${t.q3}</summary><p>${t.a3} <a class="feedback" href="${feedback}">${t.feedback}</a></p></details></section>

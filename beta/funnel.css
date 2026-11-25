@@ -29,3 +29,8 @@
 .store-shot{scroll-snap-align:start}.access-note .action{width:100%}.reminder-controls .action{width:100%}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* Complete store gallery: compact on every screen, without pushing enrollment down. */
+.store-gallery{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:clamp(176px,25%,252px);gap:1rem;overflow-x:auto;scroll-snap-type:x proximity;overscroll-behavior-inline:contain;padding:5px 5px 1rem;scroll-padding-inline:5px;scrollbar-color:var(--accent) var(--panel);scrollbar-width:thin}
+.store-shot{scroll-snap-align:start}.store-shot a{display:block;border-radius:16px}.store-shot a:focus-visible,.store-gallery:focus-visible{outline:3px solid #ffd98c;outline-offset:2px}
+@media(max-width:760px){.store-gallery{grid-auto-columns:min(68%,225px)}}
