@@ -86,3 +86,16 @@ test('next action only advances on explicitly checked steps; reminder is 14 days
   assert.ok(ics.includes('SUMMARY:Title\\, semicolon\\;'));
   assert.ok(ics.includes('DESCRIPTION:note\\nline'));
 });
+
+
+test('all ten existing optimized store screenshots are present, ordered, unique and lazy-loaded',()=>{
+  assert.equal(art.screenshots.length,10);
+  assert.deepEqual(art.screenshots.map(image=>image.url.split('/').pop()),["01-gameplay.jpg","02-bonus-combos.jpg","03-gravity-obstacles.jpg","04-dream-map.jpg","05-teddy-styles.jpg","06-daily-challenge.jpg","07-level-complete.jpg","08-obstacles.jpg","09-timer-streaks.jpg","10-special-modes.jpg"]);
+  for(const [path,html] of Object.entries(outputs())){
+    assert.equal((html.match(/class="store-shot"/g)||[]).length,10,path);
+    assert.ok(html.includes('class="store-gallery" role="region" aria-labelledby="preview-title" tabindex="0"'));
+    for(const image of art.screenshots){assert.ok(html.includes('href="'+image.url+'" target="_blank" rel="noopener noreferrer"><img src="'+image.url+'"'),path);}
+    const gallery=html.split('<div class="store-gallery"')[1].split('</div>')[0];
+    assert.equal((gallery.match(/loading="lazy"/g)||[]).length,10,path);
+  }
+});
