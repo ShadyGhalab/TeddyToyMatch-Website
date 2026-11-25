@@ -1,4 +1,4 @@
-name: Validate Android beta page
+name: Validate localized Android beta pages
 on:
   pull_request:
   push:
@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-node@v4
         with:
-          python-version: '3.12'
-      - run: python tests/test_beta.py
+          node-version: '20'
+      - run: node scripts/generate-beta.mjs --check
+      - run: node --test tests/beta-portal.test.mjs
