@@ -14,4 +14,4 @@ jobs:
         with:
           node-version: '20'
       - run: node scripts/generate-beta.mjs --check
-      - run: node --test tests/beta-portal.test.mjs
+      - run: node --test tests/beta-portal.test.mjs tests/beta-interaction.test.mjs

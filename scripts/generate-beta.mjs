@@ -2,6 +2,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { catalog, keys, config } from './beta-content.mjs';
+import { invitationLabels, enhancePage } from './beta-invitation.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const e = v => String(v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]);
@@ -44,8 +45,9 @@ ${alternate}
 `;
 }
 export function outputs() {
-  const result = {[config.prefix+'/index.html']:render('en',true)};
-  for(const locale of config.locales) result[config.prefix+'/'+locale+'/index.html']=render(locale,false);
+  const enhanced = (locale,auto) => enhancePage(render(locale,auto),config,locale,invitationLabels[locale],catalog[locale][keys.indexOf('share')]);
+  const result = {[config.prefix+'/index.html']:enhanced('en',true)};
+  for(const locale of config.locales) result[config.prefix+'/'+locale+'/index.html']=enhanced(locale,false);
   return result;
 }
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
