@@ -99,3 +99,26 @@ test('all ten existing optimized store screenshots are present, ordered, unique 
     assert.equal((gallery.match(/loading="lazy"/g)||[]).length,10,path);
   }
 });
+
+
+import { communityLabels, communityActivities } from '../scripts/beta-community.mjs';
+test('personal invitation, first-wave testers and optional adventure are localized without changing enrollment',()=>{
+  assert.deepEqual(Object.keys(communityLabels).sort(),[...config.locales].sort());
+  assert.deepEqual(Object.keys(communityActivities).sort(),[...config.locales].sort());
+  assert.ok(existsSync(join(root,config.prefix,'community.css')));
+  for(const [path,html] of Object.entries(outputs())){
+    const locale=html.match(/<html lang="([^"]+)"/)[1];
+    assert.equal(communityLabels[locale].length,10);
+    assert.equal(communityActivities[locale].length,5);
+    assert.ok(html.includes('class="developer-invite"'));
+    assert.ok(html.includes('class="enroll-clarity"'));
+    assert.equal((html.match(/data-next-action/g)||[]).length,1);
+    assert.equal((html.match(/data-next-target=/g)||[]).length,3);
+    assert.equal((html.match(/class="store-shot"/g)||[]).length,art.screenshots.length);
+    assert.ok(html.indexOf('id="enroll"')<html.indexOf('id="founding-title"'));
+    assert.ok(html.indexOf('id="enroll"')<html.indexOf('id="adventure-title"'));
+    assert.deepEqual([...html.matchAll(/data-activity-day="(\d+)"/g)].map(m=>Number(m[1])),[1,3,5,7,10,14],path);
+    assert.ok(!html.includes('class="browser-preview"'));
+    assert.ok(!html.includes('https://blind-draw-c6ee2.web.app/'));
+  }
+});

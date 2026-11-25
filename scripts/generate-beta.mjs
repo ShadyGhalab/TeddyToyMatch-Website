@@ -5,9 +5,11 @@ import { catalog, keys, config } from './beta-content.mjs';
 import { invitationLabels } from './beta-invitation.mjs';
 import { funnelLabels, art, renderPage } from './beta-funnel.mjs';
 
+import { communityLabels, communityActivities, enhanceCommunity } from './beta-community.mjs';
+
 const root = fileURLToPath(new URL('../', import.meta.url));
 export function outputs() {
-  const render = (locale,auto) => renderPage(config,catalog,keys,invitationLabels,funnelLabels,art,locale,auto);
+  const render = (locale,auto) => enhanceCommunity(renderPage(config,catalog,keys,invitationLabels,funnelLabels,art,locale,auto),config,catalog,keys,locale,communityLabels,communityActivities);
   const result = {[config.prefix+'/index.html']:render('en',true)};
   for(const locale of config.locales) result[config.prefix+'/'+locale+'/index.html']=render(locale,false);
   return result;
