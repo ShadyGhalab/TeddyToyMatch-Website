@@ -30,9 +30,22 @@ test('all localized pages are complete and reproducible',()=>{
 });
 test('all local artwork and assets exist; homepage links to beta',()=>{
   const publicRoot = root;
-  for(const path of [config.icon,config.art,'/beta/beta.css','/beta/locale.js']){
+  for(const path of [config.icon,config.art,'/beta/beta.css','/beta/locale.js','/beta/invite-qr.svg']){
     assert.ok(existsSync(join(publicRoot,path)),path);
   }
   const homepage = readFileSync(join(root,'index.html'),'utf8');
   assert.ok(homepage.includes('beta/'));
+});
+
+test('every invitation includes direct opt-in, private checklist, native sharing and verified QR asset',()=>{
+  const qr=readFileSync(join(root,config.prefix,'invite-qr.svg'),'utf8');
+  assert.ok(qr.includes('<title>'+config.domain+'/beta/</title>'));
+  for(const html of Object.values(outputs())){
+    assert.ok(html.includes('class="action member" href="https://play.google.com/apps/testing/'+config.pkg+'"'));
+    for(const step of ['group','test','install']) assert.equal((html.match(new RegExp('data-step="'+step+'"','g'))||[]).length,1);
+    assert.ok(html.includes('data-checklist hidden'));
+    assert.ok(html.includes('data-native-share hidden'));
+    assert.ok(html.includes('src="/beta/invite-qr.svg"'));
+    assert.ok(html.includes('https://wa.me/?text='));assert.ok(html.includes('https://t.me/share/url?url='));
+  }
 });
