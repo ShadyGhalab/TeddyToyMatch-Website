@@ -49,3 +49,40 @@ test('every invitation includes direct opt-in, private checklist, native sharing
     assert.ok(html.includes('https://wa.me/?text='));assert.ok(html.includes('https://t.me/share/url?url='));
   }
 });
+
+import { art, funnelLabels } from '../scripts/beta-funnel.mjs';
+import { createHash } from 'node:crypto';
+import vm from 'node:vm';
+test('every locale prioritizes enrollment and keeps real store artwork below the steps',()=>{
+  assert.equal(Object.keys(funnelLabels).length,config.locales.length);
+  for(const [path,html] of Object.entries(outputs())){
+    assert.ok(html.indexOf('id="enroll"')<html.indexOf('id="preview-title"'),path);
+    assert.equal((html.match(/data-next-action/g)||[]).length,1,path);
+    for(const key of ['group','test','install'])assert.ok(html.includes('data-next-target="'+key+'"'),path);
+    assert.ok(html.includes('data-feedback-link'));assert.ok(html.includes('data-reminder-download'));
+    assert.ok(html.includes('support.google.com/googleplay/android-developer/answer/9845334'));
+    assert.ok(html.includes('content="'+config.domain+art.graphic.url+'"'));
+    for(const image of art.screenshots)assert.ok(html.includes('src="'+image.url+'"'),path);
+    assert.doesNotMatch(html,/undefined|NaN/);
+  }
+  const publicRoot=config.kind==='ink'?join(root,'public'):root;
+  for(const image of [art.graphic,...art.screenshots]){
+    const data=readFileSync(join(publicRoot,image.url));
+    const sha=createHash('sha1').update('blob '+data.length+'\0').update(data).digest('hex');
+    assert.equal(sha,image.sha,image.url);
+  }
+});
+test('next action only advances on explicitly checked steps; reminder is 14 days later and handles boundaries',()=>{
+  const context=vm.createContext({TextEncoder,Date});
+  vm.runInContext(readFileSync(join(root,config.prefix,'funnel.js'),'utf8'),context);
+  for(const [input,expected] of [[[],'group'],[['group'],'test'],[['group','test'],'install'],[['group','test','install'],'feedback'],[['install'],'group']]){
+    context.completed=input;assert.equal(vm.runInContext('betaNextStep(completed)',context),expected);
+  }
+  for(const [input,expected] of [['2026-11-25','20261209'],['2026-12-25','20270108'],['2028-02-20','20280305'],['2026-02-30',null],['bad',null]]){
+    context.input=input;assert.equal(vm.runInContext('betaReminderDate(input)',context),expected);
+  }
+  const ics=vm.runInContext("betaCalendar('2026-11-25','Title, semicolon;','note\\nline','uid',new Date('2026-11-25T12:00:00Z'))",context);
+  assert.ok(ics.includes('DTSTART;VALUE=DATE:20261209\r\n'));assert.ok(ics.includes('DTEND;VALUE=DATE:20261210\r\n'));
+  assert.ok(ics.includes('SUMMARY:Title\\, semicolon\\;'));
+  assert.ok(ics.includes('DESCRIPTION:note\\nline'));
+});

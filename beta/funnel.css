@@ -1,0 +1,31 @@
+/* Enrollment-first layout. Loaded after the existing theme. */
+.funnel-hero{padding-block:clamp(2rem,5vw,3.8rem) 1.2rem;margin-block-end:1rem;grid-template-columns:minmax(0,1.18fr) minmax(0,.82fr)}
+.funnel-hero h1{font-size:clamp(2.45rem,5vw,4.1rem)}
+.funnel-hero h1 span{font-size:.65em;margin-top:.45rem;letter-spacing:-.02em}
+.funnel-hero .hero-graphic{aspect-ratio:1024/500;display:block;min-height:0;max-height:none;max-width:none;background:var(--panel)}
+.ink .funnel-hero .hero-graphic img,.teddy .funnel-hero .hero-graphic img{width:100%;height:100%;max-width:none;border-radius:0;object-fit:contain;box-shadow:none}
+.funnel-hero .hero-graphic::after{display:none}
+.enroll{scroll-margin-top:1rem}.enroll .steps{margin-top:1rem}.enroll .steps .action{width:100%}
+.access-note{padding:1rem 1.2rem;border:1px solid var(--line);border-radius:16px;background:var(--panel);display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+.access-note p{flex:1 1 360px;margin:0;font-size:.95rem}
+.previews{border-top:1px solid var(--line);padding-top:1.5rem}
+.store-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin-bottom:1rem;align-items:start}
+.store-shot{margin:0;min-width:0;text-align:center}
+.store-shot img{display:block;width:100%;height:auto;aspect-ratio:9/19.5;object-fit:contain;background:var(--panel);border:1px solid var(--line);border-radius:16px;box-shadow:0 14px 35px #0004}
+.store-shot figcaption{font-size:.8rem;color:var(--muted);margin-top:.5rem}
+.reminder{padding:1.25rem 1.5rem;background:var(--panel);border:1px solid var(--line);border-radius:20px}
+.reminder h2{font-size:1.35rem;margin-bottom:.65rem}
+.reminder-controls{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem}
+.reminder-controls label{font-weight:650;flex-basis:100%}
+.reminder-controls input{min-height:50px;max-width:100%;font:inherit;padding:.5rem .75rem;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:10px}
+.reminder-controls input:focus-visible{outline:3px solid #ffd98c;outline-offset:4px}
+.reminder-controls button:disabled{opacity:.6;cursor:default}
+@media(max-width:760px){
+.funnel-hero{display:block;padding-block:1.6rem .9rem}.funnel-hero .hero-graphic{margin-top:.9rem;max-height:120px;max-width:100%;aspect-ratio:auto}
+.funnel-hero .hero-graphic img{max-height:120px}.funnel-hero h1{font-size:clamp(2.3rem,8vw,3.1rem)}
+.funnel-hero .lead{font-size:1rem}.funnel-hero p{margin-bottom:.7rem}
+.enroll .steps{gap:.65rem}.enroll .steps li{padding:1.1rem}.enroll .steps h3{margin-bottom:.45rem}
+.store-gallery{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:70%;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:.6rem;overscroll-behavior-inline:contain}
+.store-shot{scroll-snap-align:start}.access-note .action{width:100%}.reminder-controls .action{width:100%}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
